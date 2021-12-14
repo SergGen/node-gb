@@ -1,8 +1,9 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "hw1/index.js",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "colors": "^1.4.0"
   }
