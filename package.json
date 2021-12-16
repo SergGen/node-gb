@@ -1,7 +1,7 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "main": "hw1/index.js",
+  "main": "index.js",
   "license": "MIT",
   "type": "module",
   "dependencies": {
