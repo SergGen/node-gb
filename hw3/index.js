@@ -7,7 +7,7 @@ import * as readline from 'node:readline';
 
 const regExpIP = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g
 let inputIPs = [...process.argv].join(' ').match(regExpIP) || ['89.123.1.41','34.48.240.111'];
-const readStream = fs.createReadStream('./logs/test.log', 'utf8');
+const readStream = fs.createReadStream('./../logs/test.log', 'utf8');
 const readInterface = readline.createInterface({input: readStream});
 
 inputIPs = inputIPs.map(ip => {
@@ -22,7 +22,7 @@ readInterface.on('line', line => {
     });
     if(foundIP) {
         if(!foundIP.writeStream) {
-            foundIP.writeStream = fs.createWriteStream(`./logs/${foundIP.address}_requests.log`,
+            foundIP.writeStream = fs.createWriteStream(`./../logs/${foundIP.address}_requests.log`,
                 {flags: 'a', autoClose: true});
         }
         foundIP.writeStream.write(line + '\n');

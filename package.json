@@ -1,10 +1,17 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "cli.js",
   "license": "MIT",
-  "type": "module",
+  "scripts": {
+    "start": "node cli.js"
+  },
+  "bin": {
+    "reader": "cli.js"
+  },
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.0",
+    "yargs": "^17.3.0"
   }
 }
