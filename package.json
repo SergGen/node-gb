@@ -1,13 +1,10 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "main": "cli.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node cli.js"
-  },
-  "bin": {
-    "reader": "cli.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "colors": "^1.4.0",
