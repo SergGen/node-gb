@@ -1,6 +1,14 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.0",
+    "yargs": "^17.3.0"
+  }
 }
