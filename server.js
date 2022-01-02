@@ -21,17 +21,24 @@ const server = http.createServer((request, response) => {
         }
 
         fs.stat(selectedElemAddress, (err, stats) => {
-            if(stats.isDirectory()) {
-                currentDirectory = selectedElemAddress;
-                send(response, baseURL);
-            }
-            if(stats.isFile()) {
-                fs.readFile(selectedElemAddress, 'utf8', (err, data) => {
-                    if (err){
-                        throw err;
-                    }
-                    send(response, baseURL, data);
-                });
+            if(err) {
+                let errAddress = selectedElemAddress;
+                currentDirectory = path.resolve(process.cwd());
+                selectedElemAddress = currentDirectory;
+                send(response, baseURL, '', errAddress);
+            } else {
+                if(stats.isDirectory()) {
+                    currentDirectory = selectedElemAddress;
+                    send(response, baseURL);
+                }
+                if(stats.isFile()) {
+                    fs.readFile(selectedElemAddress, 'utf8', (err, data) => {
+                        if (err){
+                            throw err;
+                        }
+                        send(response, baseURL, data);
+                    });
+                }
             }
         });
     } else {
@@ -49,11 +56,18 @@ const dirParser = (currentDirectory) => {
     }
 }
 
-const send = (response, baseURL, data = '') => {
+const send = (response, baseURL, data = '', err = '') => {
     let listLi='';
     let answer = '';
     let listNames = [];
     let fileData = '';
+    let header = `<h3>Current address: ${currentDirectory}</h3>`;
+    let dirUp = `<li><a href="${`${baseURL}?path=` + path.resolve(currentDirectory + '\\' + '..') }">..</a></li>`;
+    let errMarkup = '';
+
+    if(err) {
+        errMarkup = `<h3>Incorrect address: ${err}</h3>`;
+    }
 
     const htmlPageBegin = '<!doctype html><html lang="en"><head>' +
         '<meta charset="UTF-8">' +
@@ -70,10 +84,10 @@ const send = (response, baseURL, data = '') => {
     listNames = dirParser(currentDirectory);
     listNames.forEach(name => {
         let decorName = name.isDirectory() ? `&#128194; ${name.name}` : name.name;
-
         listLi += `<li><a href="${`${baseURL}?path=` + currentDirectory + '\\' + name.name}">${decorName}</a></li>`;
     });
-    answer = htmlPageBegin + `<h3>${currentDirectory}</h3>` + '<ul>' + listLi + '</ul>' + fileData + htmlPageEnd;
+
+    answer = htmlPageBegin + errMarkup + header + '<ul>' + dirUp + listLi + '</ul>' + fileData + htmlPageEnd;
     response.writeHead(200, 'OK',{ 'Content-Type': 'text/html'});
     response.write(answer);
     response.end();
